@@ -1,7 +1,7 @@
 import scissor from "../images/scissor.jpg";
 import rock from "../images/rock.jpg";
 import paper from "../images/paper.jpg";
-
+import what from "../images/what.jpg";
 import { useState } from "react";
 import Choice from "./Choice";
 export default function Game() {
@@ -10,11 +10,13 @@ export default function Game() {
   const [computer, setComputer] = useState([]);
   const [humainResult, setHumainResult] = useState(0);
   const [computerResult, setComputerResult] = useState(0);
+  const [clicked, setClicked] = useState(0);
 
   const letChoice = (choic) => {
     setXchoice(choic);
 
     computerChoice();
+    setClicked(1);
   };
   const computerChoice = (i) => {
     const randomNumber = Math.floor(Math.random() * 3);
@@ -27,23 +29,31 @@ export default function Game() {
       setHumainResult((humainResult) => (humainResult += 1));
       setComputerResult(computerResult);
     }
+    if (computer === scissor && xChoice === paper) {
+      setHumainResult(humainResult);
+      setComputerResult((computerResult) => (computerResult += 1));
+    }
+    if (computer === paper && xChoice === rock) {
+      setHumainResult(humainResult);
+      setComputerResult((computerResult) => (computerResult += 1));
+    }
+    if (computer === rock && xChoice === paper) {
+      setHumainResult((computerResult) => (computerResult += 1));
+      setComputerResult(computerResult);
+    }
+    if (computer === scissor && xChoice === rock) {
+      setHumainResult((humainResult) => (humainResult += 1));
+      setComputerResult(computerResult);
+    }
+    if (computer === rock && xChoice === scissor) {
+      setHumainResult(humainResult);
+      setComputerResult((computerResult) => (computerResult += 1));
+    }
+    // if (computer === scissor && xChoice === paper) {
+    //   setHumainResult(humainResult);
+    //   setComputerResult((computerResult) => (computerResult += 1));
+    // }
   };
-
-  // const points = () => {
-  //   let sum = 0;
-  //   let move = 0;
-  //   if (computer === paper && xChoice === scissor) {
-  //     move++;
-  //     sum += move;
-  //   }
-  //   setResult(sum);
-  //   console.log(result);
-  // };
-
-  // console.log(xChoice === paper);
-  // console.log(computer === xChoice);
-  // console.log(xChoice);
-  // console.log(move);
 
   return (
     <>
@@ -51,37 +61,38 @@ export default function Game() {
         <div>
           <h1>Rock Paper Scissors</h1>
         </div>
+        <div className="result-column">
+          <div className="game-result"> {humainResult}</div>
+          <span> vs </span>
+          <div className="game-result"> {computerResult}</div>
+        </div>
       </div>
       <div className="middle-row">
-        <div className="left-column">
-          {choice.map((choic, i) => (
-            <Choice
-              key={i}
-              choic={choic}
-              id={choic}
-              letChoice={letChoice}
-            ></Choice>
-          ))}
-        </div>
-
-        <div className="right-column">
-          <div className="game-result">{humainResult}</div>
-          <div className="game-result">{computerResult}</div>
-        </div>
+        {choice.map((choic, i) => (
+          <Choice
+            key={i}
+            choic={choic}
+            id={choic}
+            letChoice={letChoice}
+          ></Choice>
+        ))}
       </div>
-
       <div className="game-row">
         <div>
-          pasirinkimas<img src={xChoice} alt={xChoice}></img>
+          {clicked ? (
+            <img className="img" src={xChoice} alt=""></img>
+          ) : (
+            <img className="img" src={what} alt=""></img>
+          )}
         </div>
         <div>
-          kompas<img src={computer} alt={computer}></img>
+          {clicked ? (
+            <img className="img" src={computer} alt=""></img>
+          ) : (
+            <img className="img" src={what} alt=""></img>
+          )}
         </div>
       </div>
-      {/* <div className="bottom-row">
-        <div>Result</div>
-        <div className="game-result"></div>
-      </div> */}
     </>
   );
 }
