@@ -7,16 +7,21 @@ import Choice from "./Choice";
 export default function Game() {
   const [choice, setChoice] = useState([scissor, rock, paper]);
   const [xChoice, setXchoice] = useState([]);
-  // const [clicked, setClicked] = useState([{ scissor: 0, rock: 0, paper: 0 }]);
-  // const [computer, setComputer] = useState(0);
-
+  const [computer, setComputer] = useState([]);
   const letChoice = (choic) => {
-    //const arrCopy = [...choice];
-    //setClicked((clicked) => [...clicked]);
-    // for (let i = 0; i < arrCopy.length; i++) {
     setXchoice(choic);
     console.log(choic);
+    computerChoice();
   };
+  const computerChoice = () => {
+    const randomNumber = Math.floor(Math.random() * 3);
+    //  return randomNumber
+    const comp = choice[randomNumber];
+    console.log(choice[randomNumber]);
+    setComputer(comp);
+    console.log(computer);
+  };
+
   return (
     <>
       <div className="top-row">
@@ -40,6 +45,9 @@ export default function Game() {
       </div>
       <div>
         pasirinkimas<img src={xChoice} alt={xChoice}></img>
+      </div>
+      <div>
+        kompas<img src={computer} alt={computer}></img>
       </div>
       <div className="bottom-row">
         <div>Result</div>
