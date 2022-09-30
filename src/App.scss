@@ -34,7 +34,7 @@
     .left-column {
       display: flex;
       width: 200px;
-      background-color: aquamarine;
+      // background-color: aquamarine;
       justify-content: space-around;
       img {
         width: 50px;
@@ -43,9 +43,23 @@
       }
     }
     .right-column {
+      display: flex;
+      justify-content: center;
       width: 200px;
-      background-color: rgb(18, 115, 83);
+      // background-color: rgb(18, 115, 83);
+      .game-result {
+        width: 50px;
+        height: 50px;
+        background-color: rgb(39, 50, 50);
+        color: white;
+      }
     }
+  }
+  .game-row {
+    display: flex;
+    flex-direction: row;
+    width: 400px;
+    margin: 5px calc(50% - 200px);
   }
   .bottom-row {
     display: flex;
@@ -53,11 +67,5 @@
     align-items: center;
     width: 400px;
     margin: 5px calc(50% - 200px);
-    .game-result {
-      width: 50px;
-      height: 50px;
-      background-color: rgb(39, 50, 50);
-      color: white;
-    }
   }
 }
