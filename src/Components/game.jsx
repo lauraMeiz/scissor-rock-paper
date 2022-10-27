@@ -13,11 +13,20 @@ export default function Game() {
   const [clicked, setClicked] = useState(0);
   const [phrase, setPhrase] = useState("");
 
+  let pointsSave = localStorage.getItem("points")
+    ? JSON.parse(localStorage.getItem("points"))
+    : [];
+
+  const winner = () => {
+    console.log(pointsSave);
+  };
+  winner();
+
   const letChoice = (choic) => {
     setXchoice(choic);
 
     computerChoice();
-    checkWinner();
+    // checkWinner();
     setClicked(1);
   };
 
@@ -29,50 +38,60 @@ export default function Game() {
     setComputer(comp);
   };
 
-  const checkWinner = () => {
+  useEffect(() => {
     if (computer === paper && xChoice === scissor) {
       setHumainResult((humainResult) => (humainResult += 1));
       setComputerResult(computerResult);
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "You win"));
     }
     if (computer === scissor && xChoice === paper) {
       setHumainResult(humainResult);
       setComputerResult((computerResult) => (computerResult += 1));
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "Computer win"));
     }
     if (computer === paper && xChoice === rock) {
       setHumainResult(humainResult);
       setComputerResult((computerResult) => (computerResult += 1));
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "Computer win"));
     }
     if (computer === rock && xChoice === paper) {
       setHumainResult((humainResult) => (humainResult += 1));
       setComputerResult(computerResult);
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "You win"));
     }
     if (computer === scissor && xChoice === rock) {
       setHumainResult((humainResult) => (humainResult += 1));
       setComputerResult(computerResult);
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "You win"));
     }
     if (computer === rock && xChoice === scissor) {
       setHumainResult(humainResult);
       setComputerResult((computerResult) => (computerResult += 1));
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "Computer win"));
     }
     if (computer === rock && xChoice === rock) {
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "Nobody"));
     }
     if (computer === scissor && xChoice === scissor) {
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "Nobody"));
+      setHumainResult(humainResult);
+      setComputerResult(computerResult);
     }
     if (computer === paper && xChoice === paper) {
+      console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "Nobody"));
+      setHumainResult(humainResult);
+      setComputerResult(computerResult);
     }
     return;
-  };
-  useEffect(() => {
-    checkWinner();
   }, [xChoice, computer]);
 
   return (
