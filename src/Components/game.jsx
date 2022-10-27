@@ -12,15 +12,11 @@ export default function Game() {
   const [computerResult, setComputerResult] = useState(0);
   const [clicked, setClicked] = useState(0);
   const [phrase, setPhrase] = useState("");
+  const [deleted, setDeleted] = useState(0);
 
   let pointsSave = localStorage.getItem("points")
     ? JSON.parse(localStorage.getItem("points"))
     : [];
-
-  const winner = () => {
-    console.log(pointsSave);
-  };
-  winner();
 
   const letChoice = (choic) => {
     setXchoice(choic);
@@ -28,6 +24,7 @@ export default function Game() {
     computerChoice();
     // checkWinner();
     setClicked(1);
+    setDeleted(0);
   };
 
   const computerChoice = () => {
@@ -41,6 +38,7 @@ export default function Game() {
   useEffect(() => {
     if (computer === paper && xChoice === scissor) {
       setHumainResult((humainResult) => (humainResult += 1));
+      // pointsSave.push(humainResult);
       setComputerResult(computerResult);
       console.log(computerResult, humainResult);
       setPhrase((phrase) => (phrase = "You win"));
@@ -91,8 +89,33 @@ export default function Game() {
       setHumainResult(humainResult);
       setComputerResult(computerResult);
     }
+    if (computerResult === 3 || humainResult === 3) {
+      pointsSave.push({ computer: computerResult, humain: humainResult });
+      setComputerResult(0);
+      setHumainResult(0);
+      console.log(pointsSave);
+    }
+
+    localStorage.setItem("points", JSON.stringify(pointsSave));
+
     return;
   }, [xChoice, computer]);
+
+  const restart = () => {
+    setComputerResult(0);
+    setHumainResult(0);
+  };
+
+  const deleteHistory = () => {
+    localStorage.setItem("points", JSON.stringify([]));
+    setDeleted(1);
+    setComputerResult(0);
+    setHumainResult(0);
+  };
+
+  // const getHistory = JSON.parse(localStorage.getItem("points"));
+  // console.log(getHistory[0]);
+  // console.log(getHistory);
 
   return (
     <>
@@ -136,7 +159,24 @@ export default function Game() {
           )}
         </div>
       </div>
-      <div>{phrase}</div>
+      <div className="phrase-row">{phrase}</div>
+      <button className="btn btn-restart" onClick={restart}>
+        Restart
+      </button>
+      <div className="history-row">
+        History
+        {!deleted
+          ? pointsSave.map((m, i) => (
+              <div key={i}>
+                {" "}
+                <span>{i + 1}. </span>You {m.humain} : Robot {m.computer}
+              </div>
+            ))
+          : null}
+      </div>
+      <button className="btn btn-red" onClick={deleteHistory}>
+        Delete History
+      </button>
     </>
   );
 }
